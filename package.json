@@ -1,0 +1,14 @@
+{
+  "name": "arquitectura-limpia-dominio",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "domain",
+    "apps/*"
+  ],
+  "packageManager": "yarn@4.9.2",
+  "devDependencies": {
+    "@types/node": "^24.2.1",
+    "typescript": "^5.9.2"
+  }
+}
