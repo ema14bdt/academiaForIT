@@ -1,5 +1,6 @@
 import { User } from "@domain/entities/User";
 import { IUserRepository } from "./ports/IUserRepository";
+import { InvalidCredentialsError } from "@domain/shared/errors";
 
 export interface LoginUserInput {
   email: string;
@@ -16,12 +17,12 @@ export class LoginUser {
   async execute(input: LoginUserInput): Promise<LoginUserOutput> {
     const user = await this.userRepository.findByEmail(input.email);
     if (!user) {
-      throw new Error('Invalid credentials');
+      throw new InvalidCredentialsError();
     }
 
     // Temporarily compare plaintext passwords
     if (input.password !== user.passwordHash) {
-      throw new Error('Invalid credentials');
+      throw new InvalidCredentialsError();
     }
 
     const { passwordHash, ...userWithoutPassword } = user;
