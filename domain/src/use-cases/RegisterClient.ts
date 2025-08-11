@@ -1,5 +1,4 @@
 import { User } from "@domain/entities/User";
-import { IPasswordHasher } from "./ports/IPasswordHasher";
 import { IUserRepository } from "./ports/IUserRepository";
 
 export interface RegisterClientInput {
@@ -10,8 +9,7 @@ export interface RegisterClientInput {
 
 export class RegisterClient {
   constructor(
-    private readonly userRepository: IUserRepository,
-    private readonly passwordHasher: IPasswordHasher
+    private readonly userRepository: IUserRepository
   ) {}
 
   async execute(input: RegisterClientInput): Promise<void> {
@@ -20,13 +18,11 @@ export class RegisterClient {
       throw new Error('Email already in use');
     }
 
-    const passwordHash = await this.passwordHasher.hash(input.password);
-
     const newUser: User = {
       id: 'some-random-id', // Refactor later
       name: input.name,
       email: input.email,
-      passwordHash,
+      passwordHash: input.password, // Storing plaintext password for now
       role: 'client',
     };
 

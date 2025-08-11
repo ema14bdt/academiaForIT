@@ -1,5 +1,4 @@
 import { User } from "@domain/entities/User";
-import { IPasswordHasher } from "./ports/IPasswordHasher";
 import { IUserRepository } from "./ports/IUserRepository";
 
 export interface LoginUserInput {
@@ -11,8 +10,7 @@ export type LoginUserOutput = Omit<User, 'passwordHash'>;
 
 export class LoginUser {
   constructor(
-    private readonly userRepository: IUserRepository,
-    private readonly passwordHasher: IPasswordHasher
+    private readonly userRepository: IUserRepository
   ) {}
 
   async execute(input: LoginUserInput): Promise<LoginUserOutput> {
@@ -21,11 +19,8 @@ export class LoginUser {
       throw new Error('Invalid credentials');
     }
 
-    const isPasswordCorrect = await this.passwordHasher.compare(
-      input.password,
-      user.passwordHash
-    );
-    if (!isPasswordCorrect) {
+    // Temporarily compare plaintext passwords
+    if (input.password !== user.passwordHash) {
       throw new Error('Invalid credentials');
     }
 

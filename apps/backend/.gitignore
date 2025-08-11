@@ -1,0 +1,17 @@
+# Compiled output
+/dist
+/node_modules
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+
+# IDE files
+.vscode/
+.idea/
+
+# NestJS specific
+/coverage
+.eslintcache
