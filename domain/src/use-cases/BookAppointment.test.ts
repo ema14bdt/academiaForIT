@@ -8,7 +8,7 @@ import { Appointment } from '@domain/entities/Appointment';
 
 // Mocks
 const mockAvailabilityRepo: jest.Mocked<IAvailabilityRepository> = { findManyByDateRange: jest.fn(), save: jest.fn() };
-const mockAppointmentRepo: jest.Mocked<IAppointmentRepository> = { findManyByDateRange: jest.fn(), save: jest.fn() };
+const mockAppointmentRepo: jest.Mocked<IAppointmentRepository> = { findById: jest.fn(), findManyByDateRange: jest.fn(), save: jest.fn(), update: jest.fn() };
 const mockServiceRepo: jest.Mocked<IServiceRepository> = { findById: jest.fn() };
 
 beforeEach(() => jest.clearAllMocks());

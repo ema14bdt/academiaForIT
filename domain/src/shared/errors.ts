@@ -9,4 +9,23 @@ export class EmailAlreadyInUseError extends Error {
   }
 }
 
-// Add other custom errors here as needed
+export class AppointmentNotFoundError extends Error {
+  constructor(message = 'Appointment not found') {
+    super(message);
+    this.name = 'AppointmentNotFoundError';
+  }
+}
+
+export class AppointmentAlreadyCancelledError extends Error {
+  constructor(message = 'Appointment is already cancelled') {
+    super(message);
+    this.name = 'AppointmentAlreadyCancelledError';
+  }
+}
+
+export class UnauthorizedCancellationError extends Error {
+  constructor(message = 'Unauthorized to cancel this appointment') {
+    super(message);
+    this.name = 'UnauthorizedCancellationError';
+  }
+}
