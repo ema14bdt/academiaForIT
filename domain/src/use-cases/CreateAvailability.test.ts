@@ -3,7 +3,8 @@ import { IAvailabilityRepository } from './ports/IAvailabilityRepository';
 import { Availability } from '@domain/entities/Availability';
 
 // Mock del Repositorio
-const mockAvailabilityRepository: IAvailabilityRepository = {
+const mockAvailabilityRepository: jest.Mocked<IAvailabilityRepository> = {
+  findManyByDateRange: jest.fn(),
   save: jest.fn(),
 };
 
