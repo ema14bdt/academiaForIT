@@ -12,6 +12,7 @@ const mockAvailabilityRepo: jest.Mocked<IAvailabilityRepository> = {
 
 const mockAppointmentRepo: jest.Mocked<IAppointmentRepository> = {
   findManyByDateRange: jest.fn(),
+  save: jest.fn(),
 };
 
 beforeEach(() => {
