@@ -1,5 +1,6 @@
 import { User } from "@domain/entities/User";
 import { IUserRepository } from "./ports/IUserRepository";
+import { EmailAlreadyInUseError } from "@domain/shared/errors";
 
 export interface RegisterClientInput {
   name: string;
@@ -15,7 +16,7 @@ export class RegisterClient {
   async execute(input: RegisterClientInput): Promise<void> {
     const existingUser = await this.userRepository.findByEmail(input.email);
     if (existingUser) {
-      throw new Error('Email already in use');
+      throw new EmailAlreadyInUseError();
     }
 
     const newUser: User = {
