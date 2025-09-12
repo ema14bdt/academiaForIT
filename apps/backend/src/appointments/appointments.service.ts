@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CancelAppointment, CancelAppointmentInput } from '@domain/use-cases/CancelAppointment';
-import { BookAppointment, BookAppointmentInput } from '@domain/use-cases/BookAppointment';
+import {
+  CancelAppointment,
+  CancelAppointmentInput,
+} from '@domain/use-cases/CancelAppointment';
+import {
+  BookAppointment,
+  BookAppointmentInput,
+} from '@domain/use-cases/BookAppointment';
 
 @Injectable()
 export class AppointmentsService {

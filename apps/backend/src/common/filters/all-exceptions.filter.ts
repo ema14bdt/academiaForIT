@@ -1,6 +1,18 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, HttpStatus } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
-import { EmailAlreadyInUseError, InvalidCredentialsError, AppointmentNotFoundError, AppointmentAlreadyCancelledError, UnauthorizedCancellationError } from '@domain/shared/errors';
+import {
+  EmailAlreadyInUseError,
+  InvalidCredentialsError,
+  AppointmentNotFoundError,
+  AppointmentAlreadyCancelledError,
+  UnauthorizedCancellationError,
+} from '@domain/shared/errors';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -17,7 +29,13 @@ export class AllExceptionsFilter implements ExceptionFilter {
     if (exception instanceof HttpException) {
       httpStatus = exception.getStatus();
       message = (exception.getResponse() as any).message || exception.message;
-    } else if (exception instanceof EmailAlreadyInUseError || exception instanceof InvalidCredentialsError || exception instanceof AppointmentNotFoundError || exception instanceof AppointmentAlreadyCancelledError || exception instanceof UnauthorizedCancellationError) {
+    } else if (
+      exception instanceof EmailAlreadyInUseError ||
+      exception instanceof InvalidCredentialsError ||
+      exception instanceof AppointmentNotFoundError ||
+      exception instanceof AppointmentAlreadyCancelledError ||
+      exception instanceof UnauthorizedCancellationError
+    ) {
       httpStatus = HttpStatus.BAD_REQUEST;
       message = exception.message;
     } else if (exception instanceof Error) {

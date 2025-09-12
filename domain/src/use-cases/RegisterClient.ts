@@ -16,7 +16,7 @@ export class RegisterClient {
   async execute(input: RegisterClientInput): Promise<void> {
     const existingUser = await this.userRepository.findByEmail(input.email);
     if (existingUser) {
-      throw new EmailAlreadyIn-UseError();
+      throw new EmailAlreadyInUseError();
     }
 
     const newUser: User = {

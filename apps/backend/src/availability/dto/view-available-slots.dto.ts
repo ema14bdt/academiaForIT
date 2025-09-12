@@ -1,4 +1,11 @@
-import { IsDateString, IsInt, IsNotEmpty, IsNumber, Max, Min } from 'class-validator';
+import {
+  IsDateString,
+  IsInt,
+  IsNotEmpty,
+  IsNumber,
+  Max,
+  Min,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class ViewAvailableSlotsDto {

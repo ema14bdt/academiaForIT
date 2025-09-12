@@ -13,10 +13,15 @@ export class AvailabilityController {
 
   // This endpoint is public or for all authenticated users
   @Get('available-slots')
-  async getAvailableSlots(@Query() query: ViewAvailableSlotsDto): Promise<AvailableSlot[]> {
+  async getAvailableSlots(
+    @Query() query: ViewAvailableSlotsDto,
+  ): Promise<AvailableSlot[]> {
     // Convert date string to Date object for domain use case
     const date = new Date(query.date);
-    return this.availabilityService.findAvailableSlots({ date, serviceDuration: query.serviceDuration });
+    return this.availabilityService.findAvailableSlots({
+      date,
+      serviceDuration: query.serviceDuration,
+    });
   }
 
   // This endpoint is protected and only accessible by PROFESSIONALS
@@ -24,7 +29,9 @@ export class AvailabilityController {
   @Post()
   @Roles(Role.PROFESSIONAL)
   @UseGuards(RolesGuard) // You would typically have @UseGuards(AuthGuard, RolesGuard)
-  async create(@Body() createAvailabilityDto: CreateAvailabilityInput): Promise<void> {
+  create(
+    @Body() createAvailabilityDto: CreateAvailabilityInput,
+  ): Promise<void> {
     return this.availabilityService.createAvailability(createAvailabilityDto);
   }
 }
