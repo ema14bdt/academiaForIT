@@ -1,4 +1,4 @@
-import { User } from "@domain/entities/User";
+import { Role, User } from "@domain/entities/User";
 import { IUserRepository } from "./ports/IUserRepository";
 import { EmailAlreadyInUseError } from "@domain/shared/errors";
 
@@ -16,7 +16,7 @@ export class RegisterClient {
   async execute(input: RegisterClientInput): Promise<void> {
     const existingUser = await this.userRepository.findByEmail(input.email);
     if (existingUser) {
-      throw new EmailAlreadyInUseError();
+      throw new EmailAlreadyIn-UseError();
     }
 
     const newUser: User = {
@@ -24,7 +24,7 @@ export class RegisterClient {
       name: input.name,
       email: input.email,
       passwordHash: input.password, // Storing plaintext password for now
-      role: 'client',
+      role: Role.CLIENT,
     };
 
     await this.userRepository.save(newUser);
