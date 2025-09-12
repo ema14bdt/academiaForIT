@@ -1,7 +1,3 @@
-/**
- * @file Defines the User entity and roles.
- */
-
 export enum Role {
   CLIENT = 'CLIENT',
   PROFESSIONAL = 'PROFESSIONAL',

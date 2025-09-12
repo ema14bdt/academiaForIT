@@ -3,7 +3,7 @@ import {
   ViewAvailableSlots,
   ViewAvailableSlotsInput,
 } from '@domain/use-cases/ViewAvailableSlots';
-import { AvailableSlot } from '@domain/use-cases/ViewAvailableSlots'; // Re-exporting domain type
+import { AvailableSlot } from '@domain/use-cases/ViewAvailableSlots';
 import { CreateAvailability, CreateAvailabilityInput } from '@domain/use-cases/CreateAvailability';
 
 @Injectable()

@@ -3,7 +3,6 @@ import { Role } from "@domain/entities/User";
 import { IAvailabilityRepository } from "./ports/IAvailabilityRepository";
 import { IUserRepository } from "./ports/IUserRepository";
 
-// Usamos un DTO (Data Transfer Object) para el input para mayor claridad
 export interface CreateAvailabilityInput {
   professionalId: string;
   startTime: Date;
@@ -20,11 +19,11 @@ export class CreateAvailability {
     const performer = await this.userRepository.findById(input.professionalId);
 
     if (!performer || performer.role !== Role.PROFESSIONAL) {
-        throw new Error("Only professionals can create availability."); // Create a specific error later
+        throw new Error("Only professionals can create availability.");
     }
 
     const newAvailability: Availability = {
-      id: 'some-random-id', // Temporalmente estático para evitar el error de uuid
+      id: 'some-random-id', // FIXME: Use a proper UUID generator.
       adminId: input.professionalId,
       startTime: input.startTime,
       endTime: input.endTime,

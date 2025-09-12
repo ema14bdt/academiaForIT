@@ -20,7 +20,7 @@ export class RegisterClient {
     }
 
     const newUser: User = {
-      id: 'some-random-id', // Refactor later
+      id: 'some-random-id', // FIXME: Use a proper UUID generator.
       name: input.name,
       email: input.email,
       passwordHash: input.password, // Storing plaintext password for now
