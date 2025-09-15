@@ -1,0 +1,113 @@
+/* Button base styles */
+.btn {
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 700;
+  border: 0;
+  border-radius: 3em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn:focus {
+  outline: 2px solid #646cff;
+  outline-offset: 2px;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Button sizes */
+.btn--small {
+  font-size: 12px;
+  padding: 10px 16px;
+}
+
+.btn--medium {
+  font-size: 14px;
+  padding: 11px 20px;
+}
+
+.btn--large {
+  font-size: 16px;
+  padding: 12px 24px;
+}
+
+/* Button variants */
+.btn--primary {
+  color: white;
+  background-color: #1ea7fd;
+}
+
+.btn--primary:hover:not(:disabled) {
+  background-color: #1890d9;
+}
+
+.btn--secondary {
+  color: #333;
+  background-color: transparent;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 0px 1px inset;
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.btn--danger {
+  color: white;
+  background-color: #dc3545;
+}
+
+.btn--danger:hover:not(:disabled) {
+  background-color: #c82333;
+}
+
+.btn--success {
+  color: white;
+  background-color: #28a745;
+}
+
+.btn--success:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+/* Full width */
+.btn--full-width {
+  width: 100%;
+}
+
+/* Loading state */
+.btn--loading {
+  color: transparent;
+}
+
+.btn__spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn__spinner-inner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: white;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

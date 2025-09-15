@@ -1,0 +1,86 @@
+/* Login form styles */
+.login-form {
+  width: 100%;
+  max-width: 400px;
+}
+
+.login-form__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.login-form__header {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.login-form__title {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.login-form__subtitle {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.login-form__message {
+  padding: 12px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-form__message--error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.login-form__message--success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.login-form__fields {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.login-form__footer {
+  text-align: center;
+  margin-top: 8px;
+}
+
+.login-form__register-text {
+  font-size: 14px;
+  color: #6c757d;
+  margin: 0;
+}
+
+.login-form__register-link {
+  background: none;
+  border: none;
+  color: #1ea7fd;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0;
+  font-family: inherit;
+}
+
+.login-form__register-link:hover:not(:disabled) {
+  color: #1890d9;
+}
+
+.login-form__register-link:disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+}

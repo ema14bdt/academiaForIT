@@ -1,0 +1,101 @@
+/* Contenedor principal de la aplicación */
+.app-container {
+  min-height: 100vh;
+  background-color: #f8f9fa;
+  font-family: 'Nunito Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+/* Modificador para centrar contenido (usado para Login/Register) */
+.app-container--centered {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.app-loading {
+  font-size: 1.2rem;
+  color: #6c757d;
+}
+
+/* Estilos del Dashboard (cuando el usuario está logueado) */
+.dashboard-header {
+  background-color: white;
+  border-bottom: 1px solid #e9ecef;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.user-info span {
+  font-size: 14px;
+  color: #6c757d;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.appointments-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.error-message {
+  color: #721c24;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 1rem;
+  border-radius: 6px;
+}
+
+/* Diseño responsivo */
+@media (max-width: 768px) {
+  .dashboard-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: flex-start;
+  }
+  
+  .user-info {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .dashboard-main {
+    padding: 16px;
+  }
+  
+  .app-container--centered {
+    padding: 16px;
+  }
+
+  .appointments-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
