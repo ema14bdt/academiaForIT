@@ -6,12 +6,15 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "moduleResolution": "node",
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@domain/*": ["domain/src/*"]
-    }
+    },
+    "types": ["node", "jest"]
   },
   "include": ["domain/src/**/*.ts"],
   "exclude": ["node_modules"]
