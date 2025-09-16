@@ -51,7 +51,7 @@ yarn install
 
 ```bash
 # Tests de la capa de dominio
-yarn test --testPathPatterns=domain
+yarn test:domain
 ```
 
 #### 2. Ejecutar Backend (API)
@@ -87,13 +87,69 @@ yarn storybook
 
 ```bash
 # Tests del dominio
-yarn test --testPathPatterns=domain
+yarn test:domain
 
 # Tests del backend
-yarn test --testPathPatterns=backend
+yarn test:backend
 
-# Todos los tests
+# Tests del frontend (TDD implementado)
+yarn test:frontend
+yarn test:frontend:watch
+yarn test:frontend:coverage
+
+# Todos los tests (dominio + backend + frontend)
 yarn test
+
+# Tests con coverage completo
+yarn test:coverage
+```
+
+## 🧪 TDD en Frontend
+
+### Implementación Completa de TDD
+
+El frontend implementa **Test-Driven Development (TDD)** con una suite completa de pruebas:
+
+#### **Tests Unitarios**
+- ✅ **Hooks**: `useAuth`, `useAppointments`
+- ✅ **Servicios**: `ApiClient` con mocks de fetch
+- ✅ **Componentes UI**: `Button`, `Input`, `Card`
+- ✅ **Lógica de negocio**: Autenticación, gestión de citas
+
+#### **Tests de Integración**
+- ✅ **Componentes de negocio**: `LoginForm`, `MyAppointments`
+- ✅ **Flujos completos**: Login, registro, reserva de citas
+- ✅ **Interacción con API**: Mocks y simulación de respuestas
+
+#### **Configuración de Testing**
+- ✅ **Jest + Testing Library**: Framework de testing moderno
+- ✅ **jsdom**: Entorno de testing para React
+- ✅ **Coverage**: Reportes de cobertura de código
+- ✅ **Mocks**: localStorage, fetch, API client
+
+#### **Scripts de Testing Disponibles**
+```bash
+# Ejecutar solo tests de frontend
+yarn test:frontend
+
+# Tests en modo watch (desarrollo TDD)
+yarn test:frontend:watch
+
+# Coverage específico de frontend
+yarn test:frontend:coverage
+
+# Tests desde el workspace frontend
+cd apps/frontend && yarn test
+```
+
+#### **Estructura de Tests**
+```
+apps/frontend/src/
+├── components/ui/Button/__tests__/Button.test.tsx
+├── hooks/__tests__/
+│   ├── useAuth.test.tsx
+│   └── useAppointments.test.ts
+└── services/api/__tests__/ApiClient.test.ts
 ```
 
 ## 👥 Usuarios de Prueba
@@ -141,6 +197,7 @@ yarn test
 - **TypeScript** - Tipado estático
 - **Vite** - Build tool
 - **Storybook** - Visual TDD
+- **Jest + Testing Library** - TDD y testing unitario/integración
 - **CSS Modules** - Estilos
 
 ### Dominio
@@ -189,6 +246,17 @@ yarn lint
 
 # Build para producción
 yarn build
+
+# Tests con coverage completo
+yarn test:coverage
+
+# Tests específicos por proyecto
+yarn test:domain
+yarn test:backend  
+yarn test:frontend
+
+# Desarrollo con TDD (frontend)
+yarn test:frontend:watch
 ```
 
 ## 📝 Notas de Implementación
@@ -197,6 +265,8 @@ yarn build
 - **Repositorios en memoria** para desarrollo (fácil migración a BD)
 - **Validación** en múltiples capas (frontend, backend, dominio)
 - **Manejo de errores** centralizado con tipos específicos
+- **TDD completo** en frontend con Jest + Testing Library
+- **Visual TDD** con Storybook para componentes UI
 - **Internacionalización** preparada (textos en español)
 - **Responsive design** con CSS modular
 - **Yarn PnP** para gestión de dependencias estricta
