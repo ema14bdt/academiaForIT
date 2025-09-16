@@ -4,15 +4,14 @@ import { IAppointmentRepository } from './ports/IAppointmentRepository';
 import { Availability } from '@domain/entities/Availability';
 import { Appointment } from '@domain/entities/Appointment';
 
-// Mocks
 const mockAvailabilityRepo: jest.Mocked<IAvailabilityRepository> = {
   findManyByDateRange: jest.fn(),
   save: jest.fn(),
 };
-
 const mockAppointmentRepo: jest.Mocked<IAppointmentRepository> = {
   findById: jest.fn(),
   findManyByDateRange: jest.fn(),
+  findByUserId: jest.fn(),
   save: jest.fn(),
   update: jest.fn(),
 };
@@ -22,40 +21,34 @@ beforeEach(() => {
 });
 
 describe('ViewAvailableSlots Use Case', () => {
-  it('should return only available slots, excluding booked appointments', async () => {
-    // Arrange
-    const queryDate = new Date('2025-12-15T00:00:00Z');
-    const serviceDuration = 30; // 30 minutes
+  const useCase = new ViewAvailableSlots(mockAvailabilityRepo, mockAppointmentRepo);
+  const testDate = new Date('2025-12-21T00:00:00Z');
 
+  it('should return available slots based on availability and exclude booked appointments', async () => {
     const availability: Availability = {
       id: 'avail-1',
-      adminId: 'admin-1',
-      startTime: new Date('2025-12-15T09:00:00Z'),
-      endTime: new Date('2025-12-15T10:30:00Z'),
+      professionalId: 'admin-1',
+      startTime: new Date('2025-12-21T09:00:00Z'),
+      endTime: new Date('2025-12-21T10:00:00Z'),
     };
-
     const appointment: Appointment = {
       id: 'appt-1',
       clientId: 'client-1',
       serviceId: 'service-1',
-      startTime: new Date('2025-12-15T09:30:00Z'),
-      endTime: new Date('2025-12-15T10:00:00Z'),
+      startTime: new Date('2025-12-21T09:00:00Z'),
+      endTime: new Date('2025-12-21T09:30:00Z'), // 30 min appointment at the beginning
       status: 'confirmed',
     };
 
     mockAvailabilityRepo.findManyByDateRange.mockResolvedValue([availability]);
     mockAppointmentRepo.findManyByDateRange.mockResolvedValue([appointment]);
 
-    const useCase = new ViewAvailableSlots(mockAvailabilityRepo, mockAppointmentRepo);
+    const availableSlots = await useCase.execute({ date: testDate, serviceDuration: 30 });
 
-    // Act
-    const availableSlots = await useCase.execute({ date: queryDate, serviceDuration });
-
-    // Assert
-    expect(availableSlots).toHaveLength(2);
+    // The slot from 9:30 to 10:00 should be available.
+    expect(availableSlots.length).toBe(1);
     expect(availableSlots).toEqual([
-      { startTime: new Date('2025-12-15T09:00:00Z'), endTime: new Date('2025-12-15T09:30:00Z') },
-      { startTime: new Date('2025-12-15T10:00:00Z'), endTime: new Date('2025-12-15T10:30:00Z') },
+      { startTime: new Date('2025-12-21T09:30:00Z'), endTime: new Date('2025-12-21T10:00:00Z') },
     ]);
   });
 });

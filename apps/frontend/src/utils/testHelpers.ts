@@ -19,19 +19,22 @@ export const mockUsers: User[] = [
 export const mockServices: Service[] = [
   {
     id: '1',
-    name: 'General Consultation',
-    duration: 60,
+    name: 'Consulta General',
+    description: 'Consulta médica general',
+    duration: 30,
     price: 100
   },
   {
     id: '2',
-    name: 'Follow-up Appointment',
-    duration: 30,
+    name: 'Terapia',
+    description: 'Sesión de terapia psicológica',
+    duration: 60,
     price: 50
   },
   {
     id: '3',
-    name: 'Specialist Consultation',
+    name: 'Evaluación',
+    description: 'Evaluación completa del paciente',
     duration: 90,
     price: 150
   }

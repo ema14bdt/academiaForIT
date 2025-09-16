@@ -11,6 +11,8 @@ export interface AvailableSlot {
   endTime: Date;
 }
 
+const SLOT_INTERVAL = 15; // Check for a new slot every 15 minutes
+
 export class ViewAvailableSlots {
   constructor(
     private readonly availabilityRepo: IAvailabilityRepository,
@@ -38,7 +40,7 @@ export class ViewAvailableSlots {
         const slotEndTime = new Date(currentTime.getTime() + input.serviceDuration * 60000);
 
         if (slotEndTime > availability.endTime) {
-          break;
+          break; // Slot exceeds the availability window
         }
 
         const isBooked = appointments.some(appointment => 
@@ -49,7 +51,8 @@ export class ViewAvailableSlots {
           slots.push({ startTime: new Date(currentTime), endTime: slotEndTime });
         }
 
-        currentTime = slotEndTime;
+        // Move to the next potential slot start time
+        currentTime.setMinutes(currentTime.getMinutes() + SLOT_INTERVAL);
       }
     }
 

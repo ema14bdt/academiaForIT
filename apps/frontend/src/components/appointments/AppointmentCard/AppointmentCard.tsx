@@ -75,18 +75,12 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
     }
   };
 
-  const handleCancel = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (onCancel) {
-      onCancel(appointment.id);
-    }
+  const handleReschedule = () => {
+    onReschedule?.(appointment.id);
   };
 
-  const handleReschedule = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (onReschedule) {
-      onReschedule(appointment.id);
-    }
+  const handleCancel = () => {
+    onCancel?.(appointment.id);
   };
 
   const isClickable = !!onClick;

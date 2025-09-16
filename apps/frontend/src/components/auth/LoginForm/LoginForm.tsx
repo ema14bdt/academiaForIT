@@ -65,7 +65,6 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onRegisterClick }) => {
         await login(formData);
       } catch (err) {
         // Error is already handled by the useAuth hook
-        console.error(err);
       }
     }
   };

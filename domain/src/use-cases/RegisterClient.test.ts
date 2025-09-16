@@ -1,47 +1,49 @@
 import { RegisterClient } from './RegisterClient';
 import { IUserRepository } from './ports/IUserRepository';
-import { User } from '@domain/entities/User';
+import { User, Role } from '@domain/entities/User';
+import { EmailAlreadyInUseError } from '@domain/shared/errors';
+import * as bcrypt from 'bcryptjs';
 
-// Mocks
 const mockUserRepository: jest.Mocked<IUserRepository> = {
   findByEmail: jest.fn(),
   save: jest.fn(),
+  findById: jest.fn(),
 };
 
-// Reset mocks before each test
+jest.mock('bcryptjs');
+
 beforeEach(() => {
   jest.clearAllMocks();
 });
 
 describe('RegisterClient Use Case', () => {
-  it('should register a new client successfully', async () => {
-    // Arrange
-    mockUserRepository.findByEmail.mockResolvedValue(null); // Email is not taken
-    const useCase = new RegisterClient(mockUserRepository);
-    const input = { name: 'John Doe', email: 'john.doe@example.com', password: 'password123' };
+  const useCase = new RegisterClient(mockUserRepository);
+  const input = { name: 'Jane Doe', email: 'jane.doe@example.com', password: 'password123' };
 
-    // Act
+  it('should register a new client successfully', async () => {
+    mockUserRepository.findByEmail.mockResolvedValue(null);
+    jest.spyOn(crypto, 'randomUUID').mockReturnValue('mock-uuid' as any);
+    const hashSpy = jest.spyOn(bcrypt, 'genSalt').mockResolvedValue('salt' as never);
+    jest.spyOn(bcrypt, 'hash').mockResolvedValue('hashed-password' as never);
+
     await useCase.execute(input);
 
-    // Assert
     expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(input.email);
+    expect(hashSpy).toHaveBeenCalledWith(10);
     expect(mockUserRepository.save).toHaveBeenCalledWith(expect.objectContaining({
+      id: 'mock-uuid',
       name: input.name,
       email: input.email,
-      passwordHash: input.password,
-      role: 'client',
+      passwordHash: 'hashed-password',
+      role: Role.CLIENT,
     }));
   });
 
   it('should throw an error if email is already in use', async () => {
-    // Arrange
-    const existingUser: User = { id: '1', name: 'Jane Doe', email: 'jane.doe@example.com', passwordHash: 'hash', role: 'client' };
-    mockUserRepository.findByEmail.mockResolvedValue(existingUser); // Email is taken
-    const useCase = new RegisterClient(mockUserRepository);
-    const input = { name: 'Jane Doe', email: 'jane.doe@example.com', password: 'password123' };
+    const existingUser: User = { id: '1', name: 'Jane Doe', email: input.email, passwordHash: 'hash', role: Role.CLIENT };
+    mockUserRepository.findByEmail.mockResolvedValue(existingUser);
 
-    // Act & Assert
-    await expect(useCase.execute(input)).rejects.toThrow('Email already in use');
+    await expect(useCase.execute(input)).rejects.toThrow(EmailAlreadyInUseError);
     expect(mockUserRepository.save).not.toHaveBeenCalled();
   });
 });

@@ -1,6 +1,7 @@
 import { Role, User } from "@domain/entities/User";
 import { IUserRepository } from "./ports/IUserRepository";
 import { EmailAlreadyInUseError } from "@domain/shared/errors";
+import * as bcrypt from 'bcryptjs';
 
 export interface RegisterClientInput {
   name: string;
@@ -19,11 +20,14 @@ export class RegisterClient {
       throw new EmailAlreadyInUseError();
     }
 
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(input.password, salt);
+
     const newUser: User = {
-      id: 'some-random-id', // FIXME: Use a proper UUID generator.
+      id: crypto.randomUUID(),
       name: input.name,
       email: input.email,
-      passwordHash: input.password, // Storing plaintext password for now
+      passwordHash,
       role: Role.CLIENT,
     };
 

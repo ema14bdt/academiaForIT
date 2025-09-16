@@ -1,57 +1,56 @@
 import { LoginUser } from './LoginUser';
 import { IUserRepository } from './ports/IUserRepository';
-import { User } from '@domain/entities/User';
+import { User, Role } from '@domain/entities/User';
+import * as bcrypt from 'bcryptjs';
 
-// Mocks
-const mockUserRepository: jest.Mocked<IUserRepository> = { findByEmail: jest.fn(), save: jest.fn() };
+const mockUserRepository: jest.Mocked<IUserRepository> = {
+  findByEmail: jest.fn(),
+  save: jest.fn(),
+  findById: jest.fn(),
+};
 
-beforeEach(() => jest.clearAllMocks());
+jest.mock('bcryptjs');
+
+beforeEach(() => {
+  jest.clearAllMocks();
+});
 
 describe('LoginUser Use Case', () => {
-  const input = { email: 'test@example.com', password: 'password123' };
-  const user: User = { 
-    id: 'user-1', 
-    name: 'Test User', 
-    email: input.email, 
-    passwordHash: input.password, // Expecting plaintext password for now
-    role: 'client' 
+  const useCase = new LoginUser(mockUserRepository);
+  const password = 'password123';
+  const user: User = {
+    id: 'user-1',
+    name: 'Test User',
+    email: 'test@example.com',
+    passwordHash: 'hashed_password',
+    role: Role.CLIENT,
   };
 
   it('should return user data (without hash) on successful login', async () => {
-    // Arrange
     mockUserRepository.findByEmail.mockResolvedValue(user);
-    const useCase = new LoginUser(mockUserRepository);
+    const compareSpy = jest.spyOn(bcrypt, 'compare').mockResolvedValue(true as never);
+    const input = { email: user.email, password };
 
-    // Act
     const result = await useCase.execute(input);
 
-    // Assert
     expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(input.email);
+    expect(compareSpy).toHaveBeenCalledWith(password, user.passwordHash);
     expect(result).toEqual({ id: user.id, name: user.name, email: user.email, role: user.role });
   });
 
   it('should throw an error for a non-existent email', async () => {
-    // Arrange
     mockUserRepository.findByEmail.mockResolvedValue(null);
-    const useCase = new LoginUser(mockUserRepository);
+    const input = { email: 'nonexistent@example.com', password };
 
-    // Act & Assert
     await expect(useCase.execute(input)).rejects.toThrow('Invalid credentials');
   });
 
   it('should throw an error for an incorrect password', async () => {
-    // Arrange
-    const userWithDifferentPassword: User = { 
-      id: 'user-1', 
-      name: 'Test User', 
-      email: input.email, 
-      passwordHash: 'different_password', 
-      role: 'client' 
-    };
-    mockUserRepository.findByEmail.mockResolvedValue(userWithDifferentPassword);
-    const useCase = new LoginUser(mockUserRepository);
+    mockUserRepository.findByEmail.mockResolvedValue(user);
+    (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+    const input = { email: user.email, password: 'wrong-password' };
 
-    // Act & Assert
     await expect(useCase.execute(input)).rejects.toThrow('Invalid credentials');
+    expect(bcrypt.compare).toHaveBeenCalledWith(input.password, user.passwordHash);
   });
 });

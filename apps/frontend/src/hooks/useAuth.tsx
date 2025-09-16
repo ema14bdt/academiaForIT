@@ -59,6 +59,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       setUser(response.user);
       localStorage.setItem('userData', JSON.stringify(response.user));
+      localStorage.setItem('authToken', response.token);
+      apiClient.setToken(response.token);
       
     } catch (err) {
       const apiError = err as ApiError;
@@ -78,6 +80,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       
       setUser(response.user);
       localStorage.setItem('userData', JSON.stringify(response.user));
+      localStorage.setItem('authToken', response.token);
+      apiClient.setToken(response.token);
       
     } catch (err) {
       const apiError = err as ApiError;

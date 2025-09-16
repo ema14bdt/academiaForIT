@@ -3,7 +3,7 @@ import { AppointmentAlreadyCancelledError, AppointmentNotFoundError, Unauthorize
 
 export interface CancelAppointmentInput {
   appointmentId: string;
-  cancellingUserId: string | null; // null for admin, string for client
+  cancellingUserId: string | null; // Null for admin, string for client
 }
 
 export class CancelAppointment {
@@ -20,8 +20,8 @@ export class CancelAppointment {
       throw new AppointmentAlreadyCancelledError();
     }
 
-    // If a user ID is provided, check if they own the appointment
-    if (input.cancellingUserId !== null && appointment.clientId !== input.cancellingUserId) {
+    const isClientCancellation = input.cancellingUserId !== null;
+    if (isClientCancellation && appointment.clientId !== input.cancellingUserId) {
       throw new UnauthorizedCancellationError();
     }
 

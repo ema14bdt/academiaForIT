@@ -13,7 +13,7 @@ import {
 import { texts } from '../../constants/es';
 
 // La URL base de la API se puede obtener de una variable de entorno
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_BASE_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:3000';
 
 export interface ApiClientInterface {
   // Autenticación
@@ -34,7 +34,7 @@ export interface ApiClientInterface {
 }
 
 export class ApiClient implements ApiClientInterface {
-  private baseUrl: string;
+  private baseUrl: string = API_BASE_URL;
   private token: string | null = null;
 
   constructor(baseUrl: string = API_BASE_URL) {
@@ -54,7 +54,7 @@ export class ApiClient implements ApiClientInterface {
     };
 
     if (this.token) {
-      headers.Authorization = `Bearer ${this.token}`;
+      (headers as Record<string, string>).Authorization = `Bearer ${this.token}`;
     }
 
     const config: RequestInit = {
@@ -162,7 +162,7 @@ export class ApiClient implements ApiClientInterface {
 
   // Métodos de disponibilidad
   async getAvailableSlots(date: string): Promise<Availability[]> {
-    return this.request<Availability[]>(`/availability?date=${date}`);
+    return this.request<Availability[]>(`/availability/available-slots?date=${date}&serviceDuration=30`);
   }
 
   async createAvailability(availabilityData: CreateAvailabilityDto): Promise<Availability> {

@@ -80,9 +80,10 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onLoginClick }) => {
       const { confirmPassword, ...submitData } = formData;
       try {
         await register(submitData);
+        // Registration successful - user will be automatically logged in
+        // The useAuth hook handles the redirect to dashboard
       } catch (err) {
         // Error is already handled by the useAuth hook
-        console.error(err);
       }
     }
   };
