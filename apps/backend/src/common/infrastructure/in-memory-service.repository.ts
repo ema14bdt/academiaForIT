@@ -5,21 +5,24 @@ export class InMemoryServiceRepository implements IServiceRepository {
   private services: Service[] = [
     {
       id: 'service-1',
-      name: 'Manicura Express',
-      description: 'Manicura rápida',
+      name: 'Consulta',
+      description: 'Consulta profesional',
       duration: 30,
+      price: 50,
     },
     {
       id: 'service-2',
-      name: 'Manicura Completa',
-      description: 'Manicura con esmaltado',
+      name: 'Terapia',
+      description: 'Sesión de terapia',
       duration: 60,
+      price: 100,
     },
     {
       id: 'service-3',
-      name: 'Pedicura Premium',
-      description: 'Pedicura completa con masaje',
+      name: 'Evaluación',
+      description: 'Evaluación completa',
       duration: 90,
+      price: 150,
     },
   ];
 

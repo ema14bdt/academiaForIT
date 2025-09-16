@@ -3,6 +3,7 @@ import { AppointmentsController } from './appointments.controller';
 import { AppointmentsService } from './appointments.service';
 import { CancelAppointment } from '@domain/use-cases/CancelAppointment';
 import { BookAppointment } from '@domain/use-cases/BookAppointment';
+import { GetAppointmentsByUserId } from '@domain/use-cases/GetAppointmentsByUserId';
 import { IAppointmentRepository } from '@domain/use-cases/ports/IAppointmentRepository';
 import { InMemoryAppointmentRepository } from '../common/infrastructure/in-memory-appointment.repository';
 import { IServiceRepository } from '@domain/use-cases/ports/IServiceRepository';
@@ -44,7 +45,14 @@ import { InMemoryAvailabilityRepository } from '../common/infrastructure/in-memo
       },
       inject: ['IAppointmentRepository', 'IAvailabilityRepository', 'IServiceRepository'],
     },
+    {
+      provide: GetAppointmentsByUserId,
+      useFactory: (apptRepo: IAppointmentRepository) => {
+        return new GetAppointmentsByUserId(apptRepo);
+      },
+      inject: ['IAppointmentRepository'],
+    },
   ],
-  exports: [AppointmentsService, CancelAppointment, BookAppointment],
+  exports: [AppointmentsService, CancelAppointment, BookAppointment, GetAppointmentsByUserId],
 })
 export class AppointmentsModule {}

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, Body, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Query, Body, UseGuards, Request } from '@nestjs/common';
 import { AvailabilityService } from './availability.service';
 import { ViewAvailableSlotsDto } from './dto/view-available-slots.dto';
 import { AvailableSlot } from '@domain/use-cases/ViewAvailableSlots';
@@ -24,11 +24,16 @@ export class AvailabilityController {
   }
 
   @Post()
-  @UseGuards(JwtAuthGuard, RolesGuard)
-  @Roles(Role.PROFESSIONAL)
+  @UseGuards(JwtAuthGuard)
   create(
     @Body() createAvailabilityDto: CreateAvailabilityInput,
+    @Request() req: { user: { userId: string; email: string; role: string } },
   ): Promise<void> {
-    return this.availabilityService.createAvailability(createAvailabilityDto);
+    // Use the authenticated user's ID
+    const availabilityData = {
+      ...createAvailabilityDto,
+      professionalId: req.user.userId,
+    };
+    return this.availabilityService.createAvailability(availabilityData);
   }
 }

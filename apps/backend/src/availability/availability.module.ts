@@ -40,11 +40,10 @@ import { InMemoryUserRepository } from '../users/infrastructure/in-memory-user.r
       provide: CreateAvailability,
       useFactory: (
         availRepo: IAvailabilityRepository,
-        userRepo: IUserRepository,
       ) => {
-        return new CreateAvailability(availRepo, userRepo);
+        return new CreateAvailability(availRepo);
       },
-      inject: ['IAvailabilityRepository', 'IUserRepository'],
+      inject: ['IAvailabilityRepository'],
     },
   ],
   exports: [AvailabilityService, ViewAvailableSlots, CreateAvailability],

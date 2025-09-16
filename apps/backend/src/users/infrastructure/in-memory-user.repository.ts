@@ -1,8 +1,17 @@
-import { User } from '@domain/entities/User';
+import { User, Role } from '@domain/entities/User';
 import { IUserRepository } from '@domain/use-cases/ports/IUserRepository';
 
 export class InMemoryUserRepository implements IUserRepository {
-  private users: User[] = [];
+  private users: User[] = [
+    // Default admin user
+    {
+      id: 'admin-1',
+      name: 'Administrador',
+      email: 'admin@example.com',
+      passwordHash: 'admin123', // In production, this should be properly hashed
+      role: Role.PROFESSIONAL,
+    }
+  ];
 
   async findById(id: string): Promise<User | null> {
     return this.users.find((user) => user.id === id) || null;
