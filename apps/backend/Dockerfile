@@ -1,3 +1,23 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install curl for healthcheck
+RUN apk add --no-cache curl
+
+# Enable corepack and install dependencies
+COPY package.json yarn.lock ./
+COPY apps/backend/package.json ./apps/backend/
+RUN corepack enable && yarn install --frozen-lockfile
+
+# Copy the rest of the application code
+COPY . /app
+
+WORKDIR /app/apps/backend
+
+# Command to run the application
+CMD ["yarn", "start:dev"]
+
 # Simple Node.js backend build
 FROM node:18-alpine
 
