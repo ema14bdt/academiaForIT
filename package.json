@@ -8,7 +8,17 @@
   ],
   "packageManager": "yarn@4.9.2",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "test:coverage": "jest --coverage",
+    "build": "yarn build:domain && yarn build:backend && yarn build:frontend",
+    "build:domain": "yarn workspace domain run build",
+    "build:backend": "yarn workspace backend run build",
+    "build:frontend": "yarn workspace frontend run build",
+    "dev:domain": "yarn workspace domain run dev",
+    "dev:backend": "yarn workspace backend run start:dev",
+    "dev:frontend": "yarn workspace frontend run dev",
+    "lint": "yarn workspace backend run lint && yarn workspace frontend run lint",
+    "type-check": "yarn workspace domain run type-check && yarn workspace backend run type-check && yarn workspace frontend run type-check"
   },
   "devDependencies": {
     "@storybook/react-vite": "^8.6.14",
