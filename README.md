@@ -100,7 +100,7 @@ yarn test
 
 ### Administrador/Profesional
 - **Email**: admin@example.com
-- **Contraseña**: admin123
+- **Contraseña**: Ver archivo .env para credenciales de desarrollo
 - **Rol**: PROFESSIONAL
 
 ### Cliente de Prueba

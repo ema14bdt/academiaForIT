@@ -53,9 +53,9 @@ CREATE TABLE IF NOT EXISTS appointments (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Insert default admin user (password: admin123)
+-- Insert default admin user (password hash for development only)
 INSERT INTO users (id, email, password, name, role) VALUES 
-('550e8400-e29b-41d4-a716-446655440000', 'admin@example.com', '$2b$10$K7L1OJ45/4Y2nIvhRVpCe.FSmhDlwjM4JbZD6aTAp2HdSSUZuIrS2', 'Administrador', 'PROFESSIONAL')
+('550e8400-e29b-41d4-a716-446655440000', 'admin@example.com', '$2b$12$AP0wHdZ8u/XqXgjznM8xBOV9cZioVPCztuBK6SPMZF02Rpq6eBl8K', 'Administrador', 'PROFESSIONAL')
 ON CONFLICT (email) DO NOTHING;
 
 -- Insert default services

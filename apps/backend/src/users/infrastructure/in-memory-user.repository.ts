@@ -8,7 +8,7 @@ export class InMemoryUserRepository implements IUserRepository {
       id: 'admin-1',
       name: 'Administrador',
       email: 'admin@example.com',
-      passwordHash: 'admin123', // In production, this should be properly hashed
+      passwordHash: '$2b$12$AP0wHdZ8u/XqXgjznM8xBOV9cZioVPCztuBK6SPMZF02Rpq6eBl8K', // Properly hashed admin123
       role: Role.PROFESSIONAL,
     }
   ];

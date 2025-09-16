@@ -36,6 +36,30 @@ Este documento explica cómo desplegar el sistema completo usando Docker y Docke
 - Docker Engine 20.10+
 - Docker Compose 2.0+
 - 4GB RAM mínimo
+
+### ⚠️ Configuración de Seguridad
+
+**IMPORTANTE**: Antes del primer despliegue, configure las credenciales:
+
+1. **Copie el archivo de ejemplo**:
+   ```bash
+   cp .env.example .env
+   ```
+
+2. **Genere contraseñas seguras**:
+   ```bash
+   # Generar contraseña de base de datos
+   echo "DB_PASSWORD=$(openssl rand -base64 32)" >> .env
+   
+   # Generar secreto JWT
+   echo "JWT_SECRET=$(openssl rand -base64 64)" >> .env
+   ```
+
+3. **Nunca commite archivos .env** (ya están en .gitignore)
+
+**Credenciales por defecto (solo desarrollo)**:
+- Admin: admin@example.com / admin123
+- ⚠️ **CAMBIAR EN PRODUCCIÓN**
 - 10GB espacio en disco
 
 ### Configuración Inicial
